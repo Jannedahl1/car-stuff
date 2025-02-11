@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const makeSelect = document.getElementById("makeSelect");
     const modelSelect = document.getElementById("modelSelect");
 
-    // Fetch car makes from the API
+    // Fetch car makes from the correct endpoint
     fetch("/api/makes")
         .then(response => response.json())
         .then(data => {

@@ -1,24 +1,42 @@
-// Fetch car makes and models from the Flask API
-fetch('http://127.0.0.1:5000/api/cars')
-    .then(response => response.json())
-    .then(data => {
-        console.log(data); // Log the response to check the data structure
+document.addEventListener("DOMContentLoaded", function() {
+    const makeSelect = document.getElementById("makeSelect");
+    const modelSelect = document.getElementById("modelSelect");
 
-        const carSelect = document.getElementById('carSelect');
-
-        // Check if data is an array and contains elements
-        if (Array.isArray(data) && data.length > 0) {
-            // Populate dropdown with car makes and models
-            data.forEach(car => {
-                const option = document.createElement('option');
-                option.value = car.make + ' ' + car.model;
-                option.text = car.make + ' ' + car.model;
-                carSelect.appendChild(option);
+    // Fetch car makes from the API
+    fetch("/api/makes")
+        .then(response => response.json())
+        .then(data => {
+            // Populate the make dropdown with the distinct makes from the database
+            data.makes.forEach(make => {
+                const option = document.createElement("option");
+                option.value = make;
+                option.textContent = make;
+                makeSelect.appendChild(option);
             });
-        } else {
-            console.log('No data found or incorrect format');
+        })
+        .catch(error => console.error("Error fetching makes:", error));
+
+    // Event listener for when a make is selected
+    makeSelect.addEventListener("change", function() {
+        const selectedMake = makeSelect.value;
+
+        // Clear the model dropdown
+        modelSelect.innerHTML = '<option value="" disabled selected>Select a car model</option>';
+
+        // Fetch models for the selected make
+        if (selectedMake) {
+            fetch(`/api/models?make=${selectedMake}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Populate the model dropdown with models for the selected make
+                    data.models.forEach(model => {
+                        const option = document.createElement("option");
+                        option.value = model;
+                        option.textContent = model;
+                        modelSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error("Error fetching models:", error));
         }
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
     });
+});

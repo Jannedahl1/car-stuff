@@ -1,25 +1,37 @@
-from flask import Flask, jsonify
-from flask_cors import CORS  # This is for handling cross-origin requests
+from flask import Flask, jsonify, request
 import sqlite3
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
 
-# Database path
-DB_PATH = '/Users/jannedahl/Desktop/Kod/SQL/mydatabase.db'  # Adjust this path as necessary
+# Define the database path
+db_path = "/Users/jannedahl/Desktop/Kod/SQL/mydatabase.db"
 
-# Route to get car makes and models
-@app.route('/api/cars', methods=['GET'])
-def get_cars():
-    conn = sqlite3.connect(DB_PATH)
+@app.route("/api/makes")
+def get_makes():
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-    cursor.execute("SELECT make, model FROM APITest")
-    rows = cursor.fetchall()
-    conn.close()
-    
-    # Prepare data to send back as JSON
-    cars = [{'make': row[0], 'model': row[1]} for row in rows]
-    return jsonify(cars)
 
-if __name__ == '__main__':
-    app.run(debug=True)  # This will run the Flask server locally
+    # Get distinct makes from the database
+    cursor.execute("SELECT DISTINCT make FROM APITest")
+    makes = [row[0] for row in cursor.fetchall()]
+
+    conn.close()
+    return jsonify({"makes": makes})
+
+@app.route("/api/models")
+def get_models():
+    make = request.args.get('make')
+    if make:
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+
+        # Get all models for the selected make
+        cursor.execute("SELECT model FROM APITest WHERE make = ?", (make,))
+        models = [row[0] for row in cursor.fetchall()]
+
+        conn.close()
+        return jsonify({"models": models})
+    return jsonify({"models": []})
+
+if __name__ == "__main__":
+    app.run(debug=True)

@@ -1,47 +1,24 @@
-document.getElementById("find-issues").addEventListener("click", function () {
-    const carModel = document.getElementById("car-model").value;
-    const issuesList = document.getElementById("issues");
+// Fetch car makes and models from the Flask API
+fetch('http://127.0.0.1:5000/api/cars')
+    .then(response => response.json())
+    .then(data => {
+        console.log(data); // Log the response to check the data structure
 
-    // Clear previous issues
-    issuesList.innerHTML = "";
+        const carSelect = document.getElementById('carSelect');
 
-    if (carModel) {
-        let issues = [];
-
-        // Add common issues for each car model
-        switch (carModel) {
-            case "toyota-corolla-2015":
-                issues = [
-                    "Engine stalling while idling",
-                    "Transmission slipping",
-                    "Brake pads wearing out too quickly"
-                ];
-                break;
-            case "honda-civic-2018":
-                issues = [
-                    "AC not cooling properly",
-                    "Uneven tire wear",
-                    "Check engine light turns on frequently"
-                ];
-                break;
-            case "ford-focus-2017":
-                issues = [
-                    "Steering wheel shakes when braking",
-                    "Water leaking into the interior",
-                    "Fuel efficiency lower than expected"
-                ];
-                break;
-            default:
-                issues = ["No issues found for this model"];
+        // Check if data is an array and contains elements
+        if (Array.isArray(data) && data.length > 0) {
+            // Populate dropdown with car makes and models
+            data.forEach(car => {
+                const option = document.createElement('option');
+                option.value = car.make + ' ' + car.model;
+                option.text = car.make + ' ' + car.model;
+                carSelect.appendChild(option);
+            });
+        } else {
+            console.log('No data found or incorrect format');
         }
-
-        // Display the issues in a list
-        issues.forEach(issue => {
-            const li = document.createElement("li");
-            li.textContent = issue;
-            issuesList.appendChild(li);
-        });
-    } else {
-        alert("Please select a car model.");
-    }
-});
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });

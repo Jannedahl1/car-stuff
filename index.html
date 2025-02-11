@@ -1,33 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Selection</title>
+    <title>Car Models Dropdown</title>
 </head>
 <body>
-    <h1>Select a Car</h1>
-
-    <!-- Dropdown for Car Makes and Models -->
+    <h1>Select Car Make and Model</h1>
+    
+    <!-- Dropdown for car makes and models -->
     <select id="carSelect">
-        <option value="">Select a car...</option>
+        <option value="" disabled selected>Select a car</option>
     </select>
-
-    <script>
-        // Fetch car makes and models from the Flask API
-        fetch('http://127.0.0.1:5000/api/cars')
-            .then(response => response.json())
-            .then(data => {
-                const carSelect = document.getElementById('carSelect');
-
-                data.forEach(car => {
-                    const option = document.createElement('option');
-                    option.value = car.make + ' ' + car.model;
-                    option.text = car.make + ' ' + car.model;
-                    carSelect.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

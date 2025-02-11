@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const modelSelect = document.getElementById("modelSelect");
 
     // Fetch car makes from the correct endpoint
-    fetch("/api/makes")
+    fetch("/api/makes")  // This should be '/api/makes', not '/api/cars'
         .then(response => response.json())
         .then(data => {
             // Populate the make dropdown with the distinct makes from the database
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Fetch models for the selected make
         if (selectedMake) {
-            fetch(`/api/models?make=${selectedMake}`)
+            fetch(`/api/models?make=${selectedMake}`)  // This should be '/api/models', not '/api/cars'
                 .then(response => response.json())
                 .then(data => {
                     // Populate the model dropdown with models for the selected make

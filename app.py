@@ -18,7 +18,6 @@ def get_makes():
     makes_list = [make['make'] for make in makes]
     return jsonify({"makes": makes_list})
 
-# Fetch car models for a specific make
 @app.route('/api/models', methods=['GET'])
 def get_models():
     make = request.args.get('make')
@@ -32,5 +31,3 @@ def get_models():
     models_list = [model['model'] for model in models]
     return jsonify({"models": models_list})
 
-if __name__ == '__main__':
-    app.run(debug=True)

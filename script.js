@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const modelSelect = document.getElementById("modelSelect");
 
     // Fetch car makes from the correct endpoint
-    fetch("/api/makes")  // This should be '/api/makes', not '/api/cars'
+    fetch("/api/makes")
         .then(response => response.json())
         .then(data => {
             // Populate the make dropdown with the distinct makes from the database
@@ -22,10 +22,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Clear the model dropdown
         modelSelect.innerHTML = '<option value="" disabled selected>Select a car model</option>';
+        modelSelect.disabled = true;
 
         // Fetch models for the selected make
         if (selectedMake) {
-            fetch(`/api/models?make=${selectedMake}`)  // This should be '/api/models', not '/api/cars'
+            fetch(`/api/models?make=${selectedMake}`)
                 .then(response => response.json())
                 .then(data => {
                     // Populate the model dropdown with models for the selected make
@@ -35,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         option.textContent = model;
                         modelSelect.appendChild(option);
                     });
+                    modelSelect.disabled = false;
                 })
                 .catch(error => console.error("Error fetching models:", error));
         }

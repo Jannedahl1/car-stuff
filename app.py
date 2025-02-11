@@ -3,13 +3,11 @@ import sqlite3
 
 app = Flask(__name__)
 
-# Database connection
 def get_db_connection():
-    conn = sqlite3.connect('mydatabase.db')  # Replace with the correct path to your database
+    conn = sqlite3.connect('cars.db')
     conn.row_factory = sqlite3.Row
     return conn
 
-# Fetch car makes (distinct makes)
 @app.route('/api/makes', methods=['GET'])
 def get_makes():
     conn = get_db_connection()
@@ -31,3 +29,5 @@ def get_models():
     models_list = [model['model'] for model in models]
     return jsonify({"models": models_list})
 
+if __name__ == "__main__":
+    app.run(debug=True)

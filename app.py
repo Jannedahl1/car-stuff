@@ -3,15 +3,18 @@ import sqlite3
 
 app = Flask(__name__)
 
+# Update database path to your location
+DATABASE_PATH = '/Users/jannedahl/Desktop/Kod/mydatabase.db'
+
 def get_db_connection():
-    conn = sqlite3.connect('cars.db')
+    conn = sqlite3.connect(DATABASE_PATH)  # Use the correct path to your database
     conn.row_factory = sqlite3.Row
     return conn
 
 @app.route('/api/makes', methods=['GET'])
 def get_makes():
     conn = get_db_connection()
-    makes = conn.execute('SELECT DISTINCT make FROM APITest').fetchall()
+    makes = conn.execute('SELECT DISTINCT make FROM APITest').fetchall()  # Ensure it's accessing the correct table 'APITest'
     conn.close()
     makes_list = [make['make'] for make in makes]
     return jsonify({"makes": makes_list})
@@ -23,7 +26,7 @@ def get_models():
         return jsonify({"error": "No make provided"}), 400
     
     conn = get_db_connection()
-    models = conn.execute('SELECT model FROM APITest WHERE make = ?', (make,)).fetchall()
+    models = conn.execute('SELECT model FROM APITest WHERE make = ?', (make,)).fetchall()  # Correct query for your table
     conn.close()
     
     models_list = [model['model'] for model in models]

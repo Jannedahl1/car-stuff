@@ -4,7 +4,7 @@ import sqlite3
 app = Flask(__name__)
 
 # Update database path to your location
-DATABASE_PATH = '/Users/jannedahl/Desktop/Kod/mydatabase.db'
+DATABASE_PATH = '/Users/jannedahl/Desktop/Kod/SQL/mydatabase.db'
 
 def get_db_connection():
     conn = sqlite3.connect(DATABASE_PATH)  # Use the correct path to your database

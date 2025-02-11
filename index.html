@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Issues Finder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Car Issues Finder</h1>
+    </header>
+
+    <section id="car-selection">
+        <label for="car-model">Choose your car model:</label>
+        <select id="car-model">
+            <option value="">Select a car...</option>
+            <option value="toyota-corolla-2015">Toyota Corolla 2015</option>
+            <option value="honda-civic-2018">Honda Civic 2018</option>
+            <option value="ford-focus-2017">Ford Focus 2017</option>
+        </select>
+        <button id="find-issues">Find Issues</button>
+    </section>
+
+    <section id="issues-list">
+        <h2>Common Issues:</h2>
+        <ul id="issues">
+            <!-- Issues will be displayed here -->
+        </ul>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Car Issues Finder</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
